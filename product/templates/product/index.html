@@ -1,1 +1,38 @@
-{% extends 'main.html' %} 
+{% extends 'main.html' %} {% block 'content' %}
+
+<section class="row row-cols-1 row-cols-md-3 mb-5 g-4">
+  <div class="col-md-12">
+    <h1>Загловок головної сторінки</h1>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Id architecto,
+      eveniet, accusantium nemo tempora autem omnis porro nam dolore rerum aut
+      sapiente totam labore, voluptas officia ipsam perspiciatis nobis neque!
+    </p>
+  </div>
+
+  {% for category in all_category %}
+
+  <article class="col">
+    <div class="card h-100">
+      <a href="{% url 'category' category.slug %}">
+        <img
+        src="{{category.image.url}}"
+        class="card-img-top img-thumbnail"
+        alt="{{category.name}}"
+      />
+      </a>
+      <div class="card-body">
+        <h5 class="card-title"><a href="{% url 'category' category.slug %}">{{category.name}}</a></h5>
+        <p class="card-text">
+          This is a wider card with supporting text below as a natural lead-in
+          to additional content. This content is a little bit longer.
+        </p>
+      </div>
+      <div class="card-footer">
+        <small class="text-body-secondary">Додано: {{category.pub_date}}</small>
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+</section>
+{% endblock 'content' %}

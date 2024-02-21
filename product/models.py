@@ -6,15 +6,15 @@ from unidecode import unidecode
 
 class Product(models.Model):
     name = models.CharField('Назва товару', max_length=200, null=True, blank=True)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True)
+    sub_category = models.ForeignKey('SubCategory', on_delete=models.CASCADE, null=True, blank=True)
     producer = models.ForeignKey('Producer', on_delete=models.CASCADE, null=True, blank=True)
     price = models.IntegerField('Ціна товару', null=True, blank=True)
-    image = models.ImageField('Зображення товару ', null=True, blank=True, default='default.png')
+    image = models.ImageField('Зображення товару ', null=True, blank=True, default='default.jpg')
     article = models.CharField(max_length=200, null=True, blank=True)
     pub_date = models.DateTimeField('Дата публікації', auto_now_add=True)
 
     def __str__(self):
-        return f"{self.name} / {self.category} / {self.producer}"
+        return f"{self.name} / {self.sub_category} / {self.producer.name}"
     
     class Meta:
         verbose_name = "Виріб"
@@ -25,13 +25,32 @@ class Category(models.Model):
     name = models.CharField('Назва категорії', max_length=200, null=True, blank=True)
     pub_date = models.DateTimeField('Дата публікації', auto_now_add=True)
     slug = models.SlugField('Назва для ЧПУ', unique=True, null=True, blank=True)
-    
+    image = models.ImageField('Зображення для розділу ', null=True, blank=True, default='default.jpg')
+
     def __str__(self):
         return f"{self.name} / {self.pub_date}"
     
     class Meta:
         verbose_name = "Категорія"
         verbose_name_plural = "Категорії"
+
+    def save(self, *args, **kwargs):
+        slug_text = unidecode(self.name)
+        self.slug = slugify(slug_text)
+        super().save(*args, **kwargs)
+
+class SubCategory(models.Model):
+    name = models.CharField('Назва підкатегоії', max_length=200, null=True, blank=True)
+    pub_date = models.DateTimeField('Дата публікації', auto_now_add=True)
+    slug = models.SlugField('Назва для ЧПУ', unique=True, null=True, blank=True)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.name} / {self.pub_date}"
+    
+    class Meta:
+        verbose_name = "Підкатегорія"
+        verbose_name_plural = "Підкатегорії"
 
     def save(self, *args, **kwargs):
         slug_text = unidecode(self.name)
