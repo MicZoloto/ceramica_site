@@ -1,0 +1,28 @@
+{% block 'login' %}
+<div class="row justify-content-center">
+  <div class="col-10">
+    <form action="{% url 'login' %}" method="POST">
+      {% csrf_token %}
+      <p>
+      <div class="input-group flex-nowrap">
+          <span class="input-group-text" id="addon-wrapping"><i class="bi bi-person-fill"></i></span>
+          <input type="text" name="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping">
+      </div>
+      </p>
+      <p>
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping"><i class="bi bi-key"></i></span>
+            <input type="password" name="password" class="form-control" placeholder="Enter password" aria-label="Password" aria-describedby="addon-wrapping">
+        </div>
+      </p>
+      <p>
+        <input type="submit" class="btn btn-success" value="Вхід" />
+    </p>
+    </form>
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id architecto, eveniet, accusantium nemo tempora autem omnis porro nam dolore rerum aut sapiente totam labore, voluptas officia ipsam perspiciatis nobis neque!
+        <span><a href="{% url 'login-instructions' %}">Детальна інформація</a></span>
+    </p>
+  </div>
+</div>
+{% endblock %}

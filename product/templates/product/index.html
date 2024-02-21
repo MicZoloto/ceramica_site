@@ -30,6 +30,10 @@
       </div>
       <div class="card-footer">
         <small class="text-body-secondary">Додано: {{category.pub_date}}</small>
+        {% if request.user.is_authenticated %}
+        <div class="col-2 text-success"><a href="{% url 'update-category' category.slug %}"><i class="bi bi-pencil-square"></i></a></div>
+        <div class="col-2 text-danger"><a href="{% url 'delete-category' category.slug %}"><i class="bi bi-trash3-fill"></i></a></div>
+        {% endif %}
       </div>
     </div>
   </article>

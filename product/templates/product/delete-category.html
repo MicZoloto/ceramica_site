@@ -1,0 +1,15 @@
+{% extends 'main.html' %}
+
+{% block 'content' %}
+<p>
+    <h3>Підтвердження видалення - {{category.name}}</h3>
+</p>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <a href="{{ previous_page_url }}" class="btn btn-outline-secondary btn-sm">Назад</a>
+    <input type="submit" value="ТАК" class="btn btn-outline-danger btn-sm" />
+</form>
+
+
+{% endblock %}

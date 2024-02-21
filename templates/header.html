@@ -1,42 +1,94 @@
 {% load static %}
 <header>
-    <ul class="nav justify-content-end border-bottom m-1 pb-1">
-      <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Головна</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Про нас</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Контакти </a>
-      </li>
-      <li class="nav-item">
-        
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-sm btn-success m-1 pb-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-          Вхід адмінсістратора <i class="bi bi-box-arrow-in-right"></i>
-        </button>
+  <ul class="nav justify-content-end border-bottom m-1 pb-1">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="#">Головна</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Про нас</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Контакти </a>
+    </li>
+    <li class="nav-item">
+      <!-- Button trigger modal -->
+      {% if request.user.is_authenticated %}
+      <button
+        class="btn btn-sm btn-success m-1 pb-1 dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Адміністратор <i class="bi bi-person-check-fill"></i>
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a class="dropdown-item" href="{% url 'add-category' %}"
+            ><i class="bi bi-plus-square-fill"></i> Додати розділ</a
+          >
+        </li>
+        <li>
+          <a class="dropdown-item" href="{% url 'add-product' %}"
+            ><i class="bi bi-plus-square-fill"></i> Додати виріб</a
+          >
+        </li>
+        <li>
+          <a class="dropdown-item" href="#"
+            ><i class="bi bi-person-plus-fill"></i> Додати клієнта</a
+          >
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+          <a class="dropdown-item" href="{% url 'logout' %}"
+            ><i class="bi bi-box-arrow-left"></i> Вийти</a
+          >
+        </li>
+      </ul>
+      {% else %}
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-sm btn-success m-1 pb-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Вхід адмінсістратора <i class="bi bi-box-arrow-in-right"></i>
+      </button>
+      {% endif %}
 
-        <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-          tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Форма авторизації</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                ...
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
-                <button type="button" class="btn btn-success">Вхід</button>
-              </div>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                Форма авторизації
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              {% include 'product/login-tpl.html' %}
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Закрити
+              </button>
             </div>
           </div>
         </div>
-
-      </li>
-    </ul>
-  </header>
+      </div>
+    </li>
+  </ul>
+</header>
