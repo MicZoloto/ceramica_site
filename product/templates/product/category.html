@@ -3,7 +3,7 @@
 {% for category in sub_category %}
 
 <section class="row row-cols-1 row-cols-md-3 g-4 mb-5">
-    <div class="col-md-12">
+    <div class="col-md-12" id="{{category.slug}}">
         <p>
         <h1>{{category.name}}</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id architecto, eveniet,
@@ -26,16 +26,18 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Артікль: <b>{{ prod.article }}</b></li>
                     <li class="list-group-item">Виробник: <b>{{ prod.producer.name }}</b></li>
+                    <li class="list-group-item ">Ціна: <b class="text-success">{{ prod.price }}</b></li>
                 </ul>
                 <div class="card-footer">
-                    <small class="text-body-secondary row">
+                    <div class="row">
                         <div class="col-md-8">Додано {{ prod.pub_date|date:"Y-m-d" }}</div>
                         {% if request.user.is_authenticated %}
-                        <div class="col-2 text-success"><a href="{% url 'update-product' prod.id %}"><i class="bi bi-pencil-square"></i></a></div>
-                        <div class="col-2 text-danger"><a href="{% url 'delete-product' prod.id %}"><i class="bi bi-trash3-fill"></i></a></div>
+                        <div class="col-2"><a class="text-success" href="{% url 'update-product' prod.id %}"><i class="bi bi-pencil-square"></i></a></div>
+                        <div class="col-2"><a class="text-danger" href="{% url 'delete-product' prod.id %}"><i class="bi bi-trash3-fill"></i></a></div>
                         {% endif %}
-                    </small>                    
-                </div>
+                    </div>
+                </div>                    
+            </div>
         </article>
         {% endif %}
     {% endfor %}

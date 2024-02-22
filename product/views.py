@@ -8,12 +8,16 @@ from django.contrib import messages
 
 def index(request):
     product = Product.objects.all()
-    all_category = Category.objects.all()
+    category = Category.objects.all()
+    sub_category = SubCategory.objects.all()
     produscer = Producer.objects.all()
+    menu = Category.objects.all()
     context = {
         "product": product,
-        "all_category": all_category,
+        "category": category,
         "produscer": produscer,
+        "sub_category": sub_category,
+        "menu": menu,
     }
     return render(request, 'product/index.html', context)
 
@@ -21,10 +25,12 @@ def category(request, slug):
     category = Category.objects.get(slug=slug) # Отримання категорії за його унікальним ідентифікатором (primary key).
     sub_category = SubCategory.objects.filter(category=category)
     product = Product.objects.all()
+    menu = Category.objects.all()
     context = {
         "product": product,
         "category": category,
         "sub_category": sub_category,
+        "menu": menu,
     }
     return render(request, 'product/category.html', context)
 
