@@ -11,13 +11,11 @@ def index(request):
     category = Category.objects.all()
     sub_category = SubCategory.objects.all()
     produscer = Producer.objects.all()
-    menu = Category.objects.all()
     context = {
         "product": product,
         "category": category,
         "produscer": produscer,
         "sub_category": sub_category,
-        "menu": menu,
     }
     return render(request, 'product/index.html', context)
 
@@ -25,12 +23,10 @@ def category(request, slug):
     category = Category.objects.get(slug=slug) # Отримання категорії за його унікальним ідентифікатором (primary key).
     sub_category = SubCategory.objects.filter(category=category)
     product = Product.objects.all()
-    menu = Category.objects.all()
     context = {
         "product": product,
         "category": category,
         "sub_category": sub_category,
-        "menu": menu,
     }
     return render(request, 'product/category.html', context)
 
@@ -149,3 +145,13 @@ def deleteCategory(request, slug):
 
 def loginInstructions(request):
     return render(request, 'product/login-instructions.html')
+
+def navigations(request):
+    category = Category.objects.all()
+    sub_category = SubCategory.objects.all()
+
+    context = {
+        "category": category,
+        "sub_category": sub_category,
+    }
+    return render(request, 'nav.html', context)

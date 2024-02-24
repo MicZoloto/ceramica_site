@@ -7,7 +7,7 @@
         </a>
         
           <ul class="list-unstyled ps-0 ">
-            {% for nav in menu %}
+            {% for nav in category.all %}
             <li class="mb-1">
               <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
                 data-bs-target="#{{nav.slug}}-collapse" aria-expanded="false">
