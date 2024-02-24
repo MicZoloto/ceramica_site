@@ -5,17 +5,24 @@
         <a href="/" class="d-flex align-items-ce nter pb-3 mb-3 link-dark text-decoration-none">
           <img class="img-fluid" src="{% static 'images/logo.jpg' %}" alt="logo">
         </a>
-        
           <ul class="list-unstyled ps-0 ">
-            {% for nav in category.all %}
+            {% for nav in cat_nav %}
             <li class="mb-1">
+              {% if category.name == nav.name%}
+              <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                data-bs-target="#{{nav.slug}}-collapse" aria-expanded="true">
+                {{nav.name}}
+              </button>
+              <div class="collapse show" id="{{nav.slug}}-collapse">
+              {% else %}
               <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
                 data-bs-target="#{{nav.slug}}-collapse" aria-expanded="false">
                 {{nav.name}}
               </button>
               <div class="collapse" id="{{nav.slug}}-collapse">
+              {% endif %}
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  {% for sub in sub_category %}
+                  {% for sub in sub_cat_nav %}
                   {% if sub.category.name == nav.name %}
                   <li><a href="{% url 'category' nav.slug %}#{{sub.slug}}" class="link-dark rounded">{{sub.name}}</a></li>
                   {% endif %}

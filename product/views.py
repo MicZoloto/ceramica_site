@@ -145,13 +145,3 @@ def deleteCategory(request, slug):
 
 def loginInstructions(request):
     return render(request, 'product/login-instructions.html')
-
-def navigations(request):
-    category = Category.objects.all()
-    sub_category = SubCategory.objects.all()
-
-    context = {
-        "category": category,
-        "sub_category": sub_category,
-    }
-    return render(request, 'nav.html', context)
