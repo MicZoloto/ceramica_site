@@ -63,7 +63,7 @@ def addProduct(request):
     form = ProductForm()
     
     if request.method == 'POST':
-        form = ProductForm(request.POST)
+        form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -78,7 +78,7 @@ def updateProduct(request, id):
     product = Product.objects.get(id=id)    
     form = ProductForm(instance=product)
     if request.method == 'POST':
-        form = ProductForm(request.POST, instance=product)
+        form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -106,7 +106,7 @@ def addCategory(request):
     form = CategoryForm()
     
     if request.method == 'POST':
-        form = CategoryForm(request.POST)
+        form = CategoryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -118,10 +118,10 @@ def addCategory(request):
 
 @login_required(login_url='login')
 def updateCategory(request, slug):
-    product = Category.objects.get(slug=slug)    
-    form = CategoryForm(instance=product)
+    category = Category.objects.get(slug=slug)    
+    form = CategoryForm(instance=category)
     if request.method == 'POST':
-        form = CategoryForm(request.POST, instance=product)
+        form = CategoryForm(request.POST, request.FILES, instance=category)
         if form.is_valid():
             form.save()
             return redirect('index')

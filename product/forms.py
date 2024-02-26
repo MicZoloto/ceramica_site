@@ -6,10 +6,6 @@ class ProductForm(ModelForm):
     class Meta:
         model = Product
         fields  = ['name', 'sub_category', 'producer', 'price', 'image', 'article']
-        '''widgets = {
-            'full_text': TinyMCE(attrs={'cols': 50, 'rows': 30}),
-        }
-'''
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
 
@@ -24,13 +20,10 @@ class ProductForm(ModelForm):
 class CategoryForm(ModelForm):
     class Meta:
         model = Category
-        fields  = ['name', 'image']
-        '''widgets = {
-            'full_text': TinyMCE(attrs={'cols': 50, 'rows': 30}),
-        }
-'''
+        fields  = ['name', 'description', 'image']
     def __init__(self, *args, **kwargs):
         super(CategoryForm, self).__init__(*args, **kwargs)
 
         self.fields['name'].widget.attrs.update({'class': 'form-control form-control-lg'})
+        self.fields['description'].widget.attrs.update({'class': 'form-control'})
         self.fields['image'].widget.attrs.update({'class': 'form-control'})

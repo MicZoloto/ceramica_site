@@ -23,6 +23,7 @@ class Product(models.Model):
     
 class Category(models.Model):
     name = models.CharField('Назва категорії', max_length=200, null=True, blank=True)
+    description = models.TextField('Опис', null=True, blank=True)
     pub_date = models.DateTimeField('Дата публікації', auto_now_add=True)
     slug = models.SlugField('Назва для ЧПУ', unique=True, null=True, blank=True)
     image = models.ImageField('Зображення для розділу ', null=True, blank=True, default='default.jpg')
@@ -41,6 +42,7 @@ class Category(models.Model):
 
 class SubCategory(models.Model):
     name = models.CharField('Назва підкатегоії', max_length=200, null=True, blank=True)
+    description = models.TextField('Опис', null=True, blank=True)
     pub_date = models.DateTimeField('Дата публікації', auto_now_add=True)
     slug = models.SlugField('Назва для ЧПУ', unique=True, null=True, blank=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True)
