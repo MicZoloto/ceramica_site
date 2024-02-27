@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+
+{% block 'content' %}
+<section class="row row-cols-1 pb-5 g-4">
+    <div class="col-md-12">
+        <p>
+        <h1>Форма редагування сторінки</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id architecto, eveniet,
+            accusantium nemo tempora autem omnis porro nam dolore rerum aut sapiente totam labore,
+            voluptas officia ipsam perspiciatis nobis neque!</p>
+        </p>
+    </div>
+    <form method="post"б enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <div class="mt-5">
+            <button type="submit" class="btn btn-success col-md-2">Додати</button>
+            <button type="button" class="btn btn-secondary col-md-2" onclick="window.history.back();">Відмінити</button>
+        </div>
+    </form>
+
+</section>
+
+{% endblock %}

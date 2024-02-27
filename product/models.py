@@ -70,3 +70,22 @@ class Producer(models.Model):
     class Meta:
         verbose_name = "Виробник"
         verbose_name_plural = "Виробники"
+
+class Page(models.Model):
+    title = models.CharField('Загловок сторінки', max_length=100, null=True, blank=True)
+    slug = models.SlugField('Назва для ЧПУ', unique=True, null=True, blank=True)
+    content = models.TextField('Оcновна інформація', null=True, blank=True)
+    pub_date = models.DateTimeField('Дата публікації', auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title} / {self.pub_date}"
+    
+    class Meta:
+        verbose_name = "Сторінка"
+        verbose_name_plural = "Сторінки"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:  # перевірка чи slug порожній
+            slug_text = unidecode(self.title)
+            self.slug = slugify(slug_text)
+        super().save(*args, **kwargs)

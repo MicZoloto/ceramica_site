@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
-from .models import Product, Category, Producer, SubCategory
-from .forms import ProductForm, CategoryForm, SubCategoryForm
+from .models import Product, Category, Producer, SubCategory, Page
+from .forms import ProductForm, CategoryForm, SubCategoryForm, PageForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
@@ -216,3 +216,26 @@ def deleteSubCategory(request, slug):
 
 def loginInstructions(request):
     return render(request, 'product/login-instructions.html')
+
+def pages(request, slug):
+    pages = Page.objects.get(slug=slug)
+
+    context = {
+        "page": pages,
+    }
+    return render(request, 'product/page.html', context)
+
+@login_required(login_url='login')
+def updatePages(request, slug):
+    pages = Page.objects.get(slug=slug)    
+    form = PageForm(instance=pages)
+    if request.method == 'POST':
+        form = PageForm(request.POST, request.FILES, instance=pages)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+
+    context = {
+        "form":form,
+        } 
+    return render(request, 'product/edit_page_form.html', context)

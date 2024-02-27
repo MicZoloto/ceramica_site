@@ -1,5 +1,5 @@
 from django.forms import ModelForm, widgets
-from .models import Product, Category, Producer, SubCategory
+from .models import Product, Category, Producer, SubCategory, Page
 from django import forms
 
 class ProductForm(ModelForm):
@@ -39,3 +39,14 @@ class SubCategoryForm(ModelForm):
         self.fields['name'].widget.attrs.update({'class': 'form-control form-control-lg'})
         self.fields['description'].widget.attrs.update({'class': 'form-control'})
         self.fields['category'].widget.attrs.update({'class': 'form-control'})
+
+class PageForm(ModelForm):
+    class Meta:
+        model = Page
+        fields  = ['title', 'slug', 'content']
+    def __init__(self, *args, **kwargs):
+        super(PageForm, self).__init__(*args, **kwargs)
+
+        self.fields['title'].widget.attrs.update({'class': 'form-control form-control-lg'})
+        self.fields['slug'].widget.attrs.update({'class': 'form-control'})
+        self.fields['content'].widget.attrs.update({'class': 'form-control'})

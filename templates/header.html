@@ -1,15 +1,11 @@
 {% load static %}
 <header>
   <ul class="nav justify-content-end border-bottom m-1 pb-1">
+    {% for nav in top_nav %}
     <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="#">Головна</a>
+      <a class="nav-link active" aria-current="page" href="{% url 'page' nav.slug %}">{{nav.title}}</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Про нас</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Контакти </a>
-    </li>
+    {% endfor %}
     <li class="nav-item">
       <!-- Button trigger modal -->
       {% if request.user.is_authenticated %}
@@ -38,18 +34,14 @@
           >
         </li>
         <li><hr class="dropdown-divider"></li>
+        
         <li>
-          <a class="dropdown-item" href="{% url 'add-product' %}"
-            ><i class="bi bi-pencil-square"></i> Редагувати головну сторінку</a
-          >
-        </li>
-        <li>
-          <a class="dropdown-item" href="{% url 'add-product' %}"
+          <a class="dropdown-item" href="{% url 'update-pages' slug='about-us' %}"
             ><i class="bi bi-pencil-square"></i> Редагувати "Про нас"</a
           >
         </li>
         <li>
-          <a class="dropdown-item" href="{% url 'add-product' %}"
+          <a class="dropdown-item" href="{% url 'update-pages' slug='contacts' %}"
             ><i class="bi bi-pencil-square"></i> Редагувати "Контакти"</a
           >
         </li>

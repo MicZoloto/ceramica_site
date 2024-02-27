@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 
                 'utils.context_processors.navigations',
+                'utils.context_processors.pages',
             ],
         },
     },
