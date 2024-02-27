@@ -27,3 +27,15 @@ class CategoryForm(ModelForm):
         self.fields['name'].widget.attrs.update({'class': 'form-control form-control-lg'})
         self.fields['description'].widget.attrs.update({'class': 'form-control'})
         self.fields['image'].widget.attrs.update({'class': 'form-control'})
+
+
+class SubCategoryForm(ModelForm):
+    class Meta:
+        model = SubCategory
+        fields  = ['name', 'description', 'category']
+    def __init__(self, *args, **kwargs):
+        super(SubCategoryForm, self).__init__(*args, **kwargs)
+
+        self.fields['name'].widget.attrs.update({'class': 'form-control form-control-lg'})
+        self.fields['description'].widget.attrs.update({'class': 'form-control'})
+        self.fields['category'].widget.attrs.update({'class': 'form-control'})

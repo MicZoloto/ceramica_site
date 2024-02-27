@@ -1,10 +1,11 @@
 from django.shortcuts import redirect, render
 from .models import Product, Category, Producer, SubCategory
-from .forms import ProductForm, CategoryForm
+from .forms import ProductForm, CategoryForm, SubCategoryForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def index(request):
     product = Product.objects.all()
@@ -23,11 +24,39 @@ def category(request, slug):
     category = Category.objects.get(slug=slug) # Отримання категорії за його унікальним ідентифікатором (primary key).
     sub_category = SubCategory.objects.filter(category=category)
     product = Product.objects.all()
-    context = {
-        "product": product,
-        "category": category,
-        "sub_category": sub_category,
-    }
+    product_count = product.count()  # Кількість всіх об'єктів
+
+    if product.exists():
+        product_count = product.count() 
+        if product_count > 9:  
+            paginator = Paginator(product, 9)  
+            page_number = request.GET.get('page')
+            
+            try:
+                page_obj = paginator.page(page_number)
+            except PageNotAnInteger:
+                page_obj = paginator.page(1)
+            except EmptyPage:
+                page_obj = paginator.page(paginator.num_pages)
+            context = {
+                "product": product,
+                "category": category,
+                "sub_category": sub_category,
+                "page_obj": page_obj,
+            }
+        else:
+            context = {
+                "product": product,
+                "category": category,
+                "sub_category": sub_category,
+            }
+    else:
+        context = {
+            "product": None,
+            "category": category,
+            "sub_category": sub_category,
+        }
+        
     return render(request, 'product/category.html', context)
 
 def loginUser(request):
@@ -142,6 +171,48 @@ def deleteCategory(request, slug):
         "category": category,
     }
     return render(request, 'product/delete-category.html', context)
+
+@login_required(login_url='login')
+def addSubCategory(request):
+    form = SubCategoryForm()
+    
+    if request.method == 'POST':
+        form = SubCategoryForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+
+    context = {
+        "form":form,
+        } 
+    return render(request, 'product/add_subcategory_form.html', context)
+
+@login_required(login_url='login')
+def updateSubCategory(request, slug):
+    category = SubCategory.objects.get(slug=slug)    
+    form = SubCategoryForm(instance=category)
+    if request.method == 'POST':
+        form = SubCategoryForm(request.POST, request.FILES, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+
+    context = {
+        "form":form,
+        } 
+    return render(request, 'product/add_subcategory_form.html', context)
+
+@login_required(login_url='login')
+def deleteSubCategory(request, slug):
+    category = SubCategory.objects.get(slug=slug)
+    if request.method == 'POST':
+        category.delete()
+        return redirect('index')
+
+    context = {
+        "SubCategory": category,
+    }
+    return render(request, 'product/delete-subcategory.html', context)
 
 def loginInstructions(request):
     return render(request, 'product/login-instructions.html')

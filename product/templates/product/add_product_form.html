@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 
 {% block 'content' %}
-<section class="row row-cols-1 g-4">
+<section class="row row-cols-1 pb-5 g-4">
     <div class="col-md-12">
         <p>
         <h1>Форма додавання / редагування виробу</h1>
@@ -15,7 +15,7 @@
         {{form.as_p}}
         <div class="mt-5">
             <button type="submit" class="btn btn-success col-md-2">Додати</button>
-            <button type="button" class="btn btn-secondary col-md-2">Відмінити</button>
+            <button type="button" class="btn btn-secondary col-md-2" onclick="window.history.back();">Відмінити</button>
         </div>
     </form>
 

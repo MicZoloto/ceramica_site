@@ -1,13 +1,30 @@
 {% extends 'main.html' %} {% block 'content' %}
-<h1>{{category.name}}</h1>
+<div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb border-bottom pb-2 m-1">
+            <li class="breadcrumb-item"><a href="/">Головна</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{category.name}}</li>
+        </ol>
+    </nav>
+</div>
 {% for category in sub_category %}
 
 <section class="row row-cols-1 row-cols-md-3 g-4 mb-5">
     <div class="col-md-12" id="{{category.slug}}">
-        <p>
-        <h1>{{category.name}}</h1>
+        <div class="row">
+            <div class="col-md-10">
+                <h1>{{category.name}}</h1>
+            </div>
+            {% if request.user.is_authenticated %}
+            <div class="col-md-2 text-end pt-1">
+                <sapn><a class="text-success" href="{% url 'update-subcategory' category.slug %}"><i class="bi bi-pencil-square"></i></a></span>
+                <span><a class="text-danger" href="{% url 'delete-subcategory' category.slug %}"><i class="bi bi-trash3-fill"></i></a></span>
+            </div>
+            {% endif %}
+        </div>
+
         <p>{{category.description}}</p>
-        </p>
+        
     </div>
     {% for prod in product %}
         {% if prod.sub_category.name == category.name %}
@@ -15,7 +32,7 @@
             <div class="card h-100">
                 <img
                 src="{{prod.image.url}}"
-                class="card-img-top img-thumbnail"
+                class="card-img-top"
                 alt="{{category.name}}"
               />
                 <div class="card-body">
@@ -40,6 +57,21 @@
         {% endif %}
     {% endfor %}
     </section>
+    {% if page_obj.paginator.num_pages > 1 %}
+        <div class="pagination d-flex justify-content-center mt-4">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+                {% endif %}
+                <li class="page-item active"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
 {% endfor %}
 
 {% endblock 'content' %}

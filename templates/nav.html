@@ -1,11 +1,11 @@
 {% load static %}
   <aside class="col-md-3">
-    <div class="row">
+    <div class="row sticky-top overflow-auto">
       <div class="flex-shrink-0 p-3 bg-secondary-emphasis">
         <a href="/" class="d-flex align-items-ce nter pb-3 mb-3 link-dark text-decoration-none">
           <img class="img-fluid" src="{% static 'images/logo.jpg' %}" alt="logo">
         </a>
-          <ul class="list-unstyled ps-0 ">
+          <ul class="list-unstyled ps-0">
             {% for nav in cat_nav %}
             <li class="mb-1">
               {% if category.name == nav.name%}
