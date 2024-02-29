@@ -1,14 +1,16 @@
 <footer class="mt-auto" data-bs-theme="dark">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-      <li class="nav-item "><a href="#"
-          class="nav-link px-2 text-body-secondary link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">Home</a>
-      </li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+      {% for nav in top_nav %}
+      <li class="nav-item"><a href="{% url 'page' nav.slug %}" class="nav-link px-2 text-body-secondary">{{nav.title}}</a></li>
+      {% endfor %}
     </ul>
-    <p class="text-center text-body-secondary">&copy; 2023 Company, Inc</p>
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      {% for nav in cat_nav %}
+      <li class="nav-item"><a href="{% url 'category' nav.slug %}" class="nav-link px-2 text-body-secondary">{{nav.name}}</a></li>
+      {% endfor %}
+
+    </ul>
+    <p class="text-center text-body-secondary">&copy; 2024</p>
   </footer>
 </div>
 

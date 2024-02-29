@@ -27,7 +27,6 @@ def category(request, slug):
     product_count = product.count()  # Кількість всіх об'єктів
 
     if product.exists():
-        product_count = product.count() 
         if product_count > 9:  
             paginator = Paginator(product, 9)  
             page_number = request.GET.get('page')
@@ -95,7 +94,10 @@ def addProduct(request):
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.info(request, 'Товар додано успішно')
             return redirect('index')
+        else:
+            messages.warning(request, 'Щось пішло не так! Товар не додано!')
 
     context = {
         "form":form,
@@ -109,8 +111,11 @@ def updateProduct(request, id):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
+            messages.info(request, 'Товар змінено успішно')
             form.save()
             return redirect('index')
+        else:
+            messages.warning(request, 'Щось пішло не так! Товар не зінено!')
 
     context = {
         "form":form,
@@ -122,6 +127,7 @@ def deleteProduct(request, id):
     product = Product.objects.get(id=id)
     if request.method == 'POST':
         product.delete()
+        messages.warning(request, 'Товар видалено успішно!')
         return redirect('index')
 
     context = {

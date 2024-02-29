@@ -1,6 +1,9 @@
 {% load static %}
 <header>
   <ul class="nav justify-content-end border-bottom m-1 pb-1">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="/">Головна</a>
+    </li>
     {% for nav in top_nav %}
     <li class="nav-item">
       <a class="nav-link active" aria-current="page" href="{% url 'page' nav.slug %}">{{nav.title}}</a>
