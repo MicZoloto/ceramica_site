@@ -20,11 +20,13 @@ class ProductForm(ModelForm):
 class CategoryForm(ModelForm):
     class Meta:
         model = Category
-        fields  = ['name', 'description', 'image']
+        fields  = ['name', 'description_seo', 'keywords_seo', 'description', 'image']
     def __init__(self, *args, **kwargs):
         super(CategoryForm, self).__init__(*args, **kwargs)
 
         self.fields['name'].widget.attrs.update({'class': 'form-control form-control-lg'})
+        self.fields['description_seo'].widget.attrs.update({'class': 'form-control'})
+        self.fields['keywords_seo'].widget.attrs.update({'class': 'form-control'})
         self.fields['description'].widget.attrs.update({'class': 'form-control'})
         self.fields['image'].widget.attrs.update({'class': 'form-control'})
 
@@ -43,10 +45,12 @@ class SubCategoryForm(ModelForm):
 class PageForm(ModelForm):
     class Meta:
         model = Page
-        fields  = ['title', 'slug', 'content']
+        fields  = ['title', 'slug', 'description_seo', 'keywords_seo', 'content']
     def __init__(self, *args, **kwargs):
         super(PageForm, self).__init__(*args, **kwargs)
 
         self.fields['title'].widget.attrs.update({'class': 'form-control form-control-lg'})
         self.fields['slug'].widget.attrs.update({'class': 'form-control'})
+        self.fields['description_seo'].widget.attrs.update({'class': 'form-control'})
+        self.fields['keywords_seo'].widget.attrs.update({'class': 'form-control'})
         self.fields['content'].widget.attrs.update({'class': 'form-control'})

@@ -24,6 +24,10 @@ class Product(models.Model):
 class Category(models.Model):
     name = models.CharField('Назва категорії', max_length=200, null=True, blank=True)
     description = models.TextField('Опис', null=True, blank=True)
+
+    description_seo = models.CharField(max_length=255, verbose_name='Опис для SEO', blank=True)
+    keywords_seo = models.CharField(max_length=255, verbose_name='Ключові слова для SEO', blank=True)
+
     pub_date = models.DateTimeField('Дата публікації', auto_now_add=True)
     slug = models.SlugField('Назва для ЧПУ', unique=True, null=True, blank=True)
     image = models.ImageField('Зображення для розділу ', null=True, blank=True, default='default.jpg')
@@ -38,6 +42,10 @@ class Category(models.Model):
     def save(self, *args, **kwargs):
         slug_text = unidecode(self.name)
         self.slug = slugify(slug_text)
+
+        if not self.description:
+            self.description = self.title
+
         super().save(*args, **kwargs)
 
 class SubCategory(models.Model):
@@ -74,6 +82,10 @@ class Producer(models.Model):
 class Page(models.Model):
     title = models.CharField('Загловок сторінки', max_length=100, null=True, blank=True)
     slug = models.SlugField('Назва для ЧПУ', unique=True, null=True, blank=True)
+
+    description_seo = models.CharField(max_length=255, verbose_name='Опис для SEO', blank=True)
+    keywords_seo = models.CharField(max_length=255, verbose_name='Ключові слова для SEO', blank=True)
+
     content = models.TextField('Оcновна інформація', null=True, blank=True)
     pub_date = models.DateTimeField('Дата публікації', auto_now_add=True)
 
@@ -88,4 +100,6 @@ class Page(models.Model):
         if not self.slug:  # перевірка чи slug порожній
             slug_text = unidecode(self.title)
             self.slug = slugify(slug_text)
+        if not self.description:
+            self.description = self.title
         super().save(*args, **kwargs)
