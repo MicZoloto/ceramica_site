@@ -155,3 +155,11 @@ LOGGING = {
         },
     },
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': os.path.join(BASE_DIR, 'site_cach'),
+    }
+}
+

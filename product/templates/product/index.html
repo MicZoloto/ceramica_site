@@ -1,4 +1,8 @@
-{% extends 'main.html' %} {% block 'content' %}
+{% extends 'main.html' %}
+{% block title %}Головна сторінка сайту - сайт керамічних виробів{% endblock %}
+{% block keywords_seo %}розділ з ключовими словами{% endblock %}
+{% block description_seo %}Опис гловної сторінки{% endblock %}
+{% block content %}
 
 <section class="row row-cols-1 row-cols-md-3 mb-5 g-4">
   <div class="col-md-12">
@@ -29,8 +33,8 @@
         <div class="row">
           <div class="col-md-8">Додано {{ cat.pub_date|date:"Y-m-d" }}</div>
           {% if request.user.is_authenticated %}
-          <div class="col-2"><a class="text-success" href="{% url 'update-category' cat.slug %}"><i class="bi bi-pencil-square"></i></a></div>
-          <div class="col-2"><a class="text-danger" href="{% url 'delete-category' cat.slug %}"><i class="bi bi-trash3-fill"></i></a></div>
+          <div class="col-2"><a class="text-light btn btn-success btn-sm" href="{% url 'update-category' cat.slug %}"><i class="bi bi-pencil-square"></i></a></div>
+          <div class="col-2"><a class="text-light btn btn-danger btn-sm" href="{% url 'delete-category' cat.slug %}"><i class="bi bi-trash3-fill"></i></a></div>
           {% endif %}
         </div>
     </div> 
@@ -38,4 +42,4 @@
   </article>
   {% endfor %}
 </section>
-{% endblock 'content' %}
+{% endblock content %}
