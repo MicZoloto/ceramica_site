@@ -6,11 +6,11 @@ from unidecode import unidecode
 
 class Product(models.Model):
     name = models.CharField('Назва товару', max_length=200, null=True, blank=True)
-    sub_category = models.ForeignKey('SubCategory', on_delete=models.CASCADE, null=True, blank=True)
-    producer = models.ForeignKey('Producer', on_delete=models.CASCADE, null=True, blank=True)
+    sub_category = models.ForeignKey('SubCategory', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Розділ')
+    producer = models.ForeignKey('Producer', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Виробник')
     price = models.IntegerField('Ціна товару', null=True, blank=True)
     image = models.ImageField('Зображення товару ', null=True, blank=True, default='default.jpg')
-    article = models.CharField(max_length=200, null=True, blank=True)
+    article = models.CharField('Артікль', max_length=200, null=True, blank=True)
     pub_date = models.DateTimeField('Дата публікації', auto_now_add=True)
 
     def __str__(self):

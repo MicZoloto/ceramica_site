@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.views import View
 from .models import Product, Category, Producer, SubCategory, Page
 from .forms import ProductForm, CategoryForm, SubCategoryForm, PageForm
 from django.contrib.auth.decorators import login_required
