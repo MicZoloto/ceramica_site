@@ -2,11 +2,11 @@
 <header>
   <ul class="nav justify-content-end border-bottom m-1 pb-1">
     <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="/">Головна</a>
+      <a class="nav-link fw-bolder link-underline-opacity-0 text-success" aria-current="page" href="/">Головна</a>
     </li>
     {% for nav in top_nav %}
     <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="{% url 'page' nav.slug %}">{{nav.title}}</a>
+      <a class="nav-link fw-bolder link-underline-opacity-0 text-success" aria-current="page" href="{% url 'page' nav.slug %}">{{nav.title}}</a>
     </li>
     {% endfor %}
     <li class="nav-item">
@@ -50,8 +50,13 @@
         </li>
         <li><hr class="dropdown-divider"></li>
         <li>
-          <a class="dropdown-item" href="№"
-            ><i class="bi bi-arrow-left-right"></i> Імпорт / Експорт</a
+          <a class="dropdown-item" href="{% url 'export_data' %}"
+            ><i class="bi bi-arrow-bar-up"></i> Експорт</a
+          >
+        </li>
+        <li>
+          <a class="dropdown-item" href="{% url 'import_data' %}"
+            ><i class="bi bi-arrow-bar-down"></i> Імпорт</a
           >
         </li>
         <li><hr class="dropdown-divider"></li>

@@ -100,6 +100,6 @@ class Page(models.Model):
         if not self.slug:  # перевірка чи slug порожній
             slug_text = unidecode(self.title)
             self.slug = slugify(slug_text)
-        if not self.description:
-            self.description = self.title
+        if not self.description_seo:
+            self.description_seo = self.title
         super().save(*args, **kwargs)

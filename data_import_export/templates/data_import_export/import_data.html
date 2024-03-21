@@ -1,0 +1,44 @@
+{% extends 'main.html' %}
+{% block title %}IMPORT - сайт керамічних виробів{% endblock %}
+{% block keywords_seo %}розділ з ключовими словами {% endblock %}
+{% block description_seo %}Опис сторінки{% endblock %}
+
+{% block content %}
+<section class="row row-cols-1 pb-5 g-4">
+    <div class="col-md-12">
+        <p>
+        <h1>Сторінка імпорту даних</h1>
+        <p>
+            <h3>Інструкції:</h3>
+            <ol>
+                <li>
+                    <strong>Виберіть файл:</strong>
+                    <p>Натисніть на кнопку "Оберіть файл" та виберіть файл CSV з даними для імпорту.</p>
+                </li>
+                <li>
+                    <strong>Натисніть "Імпортувати":</strong>
+                    <p>Після вибору файлу натисніть кнопку "Імпортувати", щоб почати імпорт даних у ваше додаток.</p>
+                </li>
+                <li>
+                    <strong>Зачекайте завершення імпорту:</strong>
+                    <p>Після натискання кнопки очікуйте, поки дані будуть імпортовані. Після успішного імпорту ви отримаєте відповідне повідомлення.</p>
+                </li>
+            </ol>
+        </p>
+
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="inputGroupFile04" class="form-label">Оберіть <b>CSV</b> файл для імпорту</label>
+            {{ form.csv_file }}
+        </div>
+        <p>
+            <button class="btn btn-success" type="submit">Імпортувати</button>
+            <button type="button" class="btn btn-secondary col-md-2" onclick="window.history.back();">Відмінити</button>
+        </p>
+    </form>
+</section>
+
+{% endblock %}

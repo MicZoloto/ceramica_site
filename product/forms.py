@@ -54,3 +54,8 @@ class PageForm(ModelForm):
         self.fields['description_seo'].widget.attrs.update({'class': 'form-control'})
         self.fields['keywords_seo'].widget.attrs.update({'class': 'form-control'})
         self.fields['content'].widget.attrs.update({'class': 'form-control'})
+
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=100, label='Ваше ім\'я', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(label='Ваш email', widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    message = forms.CharField(label='Текст повідомлення', widget=forms.Textarea(attrs={'class': 'form-control'}))

@@ -1,0 +1,84 @@
+{% extends 'main.html' %}
+{% block title %}EXPORT - сайт керамічних виробів{% endblock %}
+{% block keywords_seo %}розділ з ключовими словами {% endblock %}
+{% block description_seo %}Опис сторінки{% endblock %}
+
+{% block content %}
+<section class="row row-cols-1 pb-5 g-4">
+    <div class="col-md-12">
+        <p>
+        <h1>Сторінка експорту каталогу продукціїї</h1>
+        <p>Сторінка експорту даних призначена для зручного експорту каталогу продукції у форматі CSV. Ви можете обрати потрібні підкатегорії, які вас цікавлять, та завантажити відповідний CSV-файл з даними.</p>
+        <div>
+            <h3>Інструкція:</h3>
+            <ol>
+                <li>
+                    <strong>Вибір підкатегорій:</strong>
+                    <p>Оберіть підкатегорії, які ви бажаєте експортувати, використовуючи чекбокси поряд з назвами підкатегорій.</p>
+                </li>
+                <li>
+                    <strong>Обрати все:</strong>
+                    <p>Натисніть кнопку "Обрати все", щоб швидко вибрати всі підкатегорії.</p>
+                </li>
+                <li>
+                    <strong>Зняти всі виділення:</strong>
+                    <p>Якщо потрібно скасувати вибір усіх підкатегорій, натисніть кнопку "Зняти всі виділення".</p>
+                </li>
+                <li>
+                    <strong>Експортувати:</strong>
+                    <p>Після вибору потрібних підкатегорій натисніть кнопку "Експортувати", щоб завантажити CSV-файл з відповідними даними.</p>
+                </li>
+            </ol>
+        </div>
+        
+        </p>
+    </div>
+    <form action="{% url 'export_data' %}" method="post" id="exportForm">
+        {% csrf_token %}
+        <button type="button" class="btn btn-secondary btn-sm" id="selectAll">Обрати все</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="deselectAll">Зняти всі виділення</button>
+        <table class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th class="text-center">id</th>
+                    <th>Назва підкатегорії</th>
+                    <th class="text-center">Обрати</th>
+                </tr>
+            </thead>
+            
+            <tbody class="table-group-divider">
+                {% for sub in sub_categories %}
+                <tr>
+                    <td class="col-md-1 text-center">{{ sub.id }}</td>
+                    <td class="col-md-10">{{ sub.name }}</td>
+                    <td class="col-md-1 text-center"><input type="checkbox" name="sub_categories" value="{{ sub.id }}"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <input type="submit" class="btn btn-success" value="Експортувати">
+        <button type="button" class="btn btn-secondary col-md-2" onclick="window.history.back();">Відмінити</button>
+    </form>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const selectAllButton = document.getElementById('selectAll');
+    const deselectAllButton = document.getElementById('deselectAll');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    selectAllButton.addEventListener('click', function() {
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = true;
+        });
+    });
+
+    deselectAllButton.addEventListener('click', function() {
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = false;
+        });
+    });
+});
+</script>
+
+{% endblock %}

@@ -15,10 +15,46 @@
                 <sapn><a class="text-light btn btn-success btn-sm" href="{% url 'update-pages' page.slug %}"><i class="bi bi-pencil-square"></i></a></span>
             </div>
             {% endif %}
+            {% if page.slug == 'contacts' %}
+            <!-- Contact 5 - Bootstrap Brain Component -->
+            <section class="py-3 py-md-5 py-xl-8">
+                <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-10 col-lg-8">
+                    <h2 class="display-5 mb-4 mb-md-5 mb-xl-8">
+                        Ми завжди в пошуку можливостей співпраці з новими клієнтами. Будь ласка, зв'яжіться з нами одним з наступних способів.</h2>
+                    </div>
+                </div>
+                </div>
+            
+                <div class="container">
+                <div class="row gy-4 gy-md-5 gy-lg-0 align-items-md-top">
+                    <div class="col-12 col-lg-6">
+                        <div class="overflow-hidden p-2">
+                
+                            <form method="post">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <button class="btn btn-success" type="submit">Відправити</button>
+                                <button type="button" class="btn btn-secondary col-md-2" onclick="window.history.back();">Відмінити</button>
+                            </form>
+                
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <p>
+                            {{page.content | safe}}
+                        </p>
+                    </div>
+                </div>
+                </div>
+            </section>
+            {% else %}   
+            <p>
+                {{page.content | safe}}
+            </p>    
+            {% endif %}
         </div>
-        <p>
-        {{page.content | safe}}
-        </p>
     </div>
 </section>
 {% endblock %}

@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'product.apps.ProductConfig',
+    'data_import_export.apps.DataImportExportConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -163,3 +164,9 @@ CACHES = {
     }
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Ваш SMTP сервер
+EMAIL_PORT = 587  # Порт SMTP сервера
+EMAIL_USE_TLS = True  # Використовувати TLS з'єднання
+EMAIL_HOST_USER = 'mic.zoloto@gmail.com'  # Ваша електронна адреса
+EMAIL_HOST_PASSWORD = 'mgde cmod xvez mrxq'  # Пароль для електронної адреси

@@ -1,12 +1,14 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.views import View
 from .models import Product, Category, Producer, SubCategory, Page
-from .forms import ProductForm, CategoryForm, SubCategoryForm, PageForm
+from .forms import ContactForm, ProductForm, CategoryForm, SubCategoryForm, PageForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.mail import send_mail
 
 def index(request):
     product = Product.objects.all()
@@ -226,9 +228,26 @@ def loginInstructions(request):
 
 def pages(request, slug):
     pages = Page.objects.get(slug=slug)
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            send_mail(
+                f'Повідомлення з сайту ceramica_site від {name} ({email})',
+                message,
+                email,
+                ['mic.zoloto@gmail.com'],  # Адреса, куди надсилати повідомлення
+                fail_silently=False,
+            )
+            return redirect('page', slug=slug)
+    else:
+        form = ContactForm()
 
     context = {
         "page": pages,
+        'form': form
     }
     return render(request, 'product/page.html', context)
 
