@@ -12,13 +12,13 @@
         </ol>
     </nav>
 </div>
-{% for category in sub_category %}
+{% for sub_category, products in sub_categories_with_products.items %}
 
-<section class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+<section id="subcategory-{{ sub_cat.slug }}" class="row row-cols-1 row-cols-md-3 g-4 mb-5 subcategory">
     <div class="col-md-12" id="{{category.slug}}">
         <div class="row">
             <div class="col-md-10">
-                <h1>{{category.name}}</h1>
+                <h1>{{sub_category.name}}</h1>
             </div>
             {% if request.user.is_authenticated %}
             <div class="col-md-2 text-end pt-1">
@@ -28,11 +28,11 @@
             {% endif %}
         </div>
 
-        <p>{{category.description}}</p>
+        <p>{{sub_category.description}}</p>
         
     </div>
-    {% for prod in product %}
-        {% if prod.sub_category.name == category.name %}
+    {% for prod in products %}
+        {% if prod.sub_category.name == sub_category.name %}
         <article class="col">
             <div class="card h-100">
                 <img
@@ -61,22 +61,56 @@
         </article>
         {% endif %}
     {% endfor %}
-    </section>
-    {% if page_obj.paginator.num_pages > 1 %}
-        <div class="pagination d-flex justify-content-center mt-4">
-            <ul class="pagination">
-                {% if page_obj.has_previous %}
-                    <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
-                {% endif %}
-                <li class="page-item active"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
-                {% if page_obj.has_next %}
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    {% endif %}
-{% endfor %}
+    <button class="load-more" data-subcategory="{{ sub_cat.slug }}" data-next-page="2">Завантажити ще</button>
 
+    </section>
+{% endfor %}
+<script>
+    // Функція для завантаження продуктів у підкатегорії
+    function loadProducts(slug, page) {
+        $.ajax({
+            url: '{% url "category" category.slug %}', // Переконайтесь, що цей URL правильно налаштований
+            type: 'GET',
+            data: {
+                'slug': slug,  
+                'page': page
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.products && response.products.length > 0) {
+                    response.products.forEach(function(product) {
+                        var productHtml = '<div class="product">' +
+                                          '<img src="' + product.image.url + '" alt="' + product.name + '">' +
+                                          '<div>' + product.name + '</div>' +
+                                          '<div>Артикул: ' + product.article + '</div>' +
+                                          '<div>Виробник: ' + product.producer.name + '</div>' +
+                                          '<div>Ціна: ' + product.price + '</div>' +
+                                          '</div>';
+    
+                        // Додаємо продукти в DOM для відповідної підкатегорії
+                        $('#subcategory-' + slug).append(productHtml);
+                    });
+                } else {
+                    // Приховуємо кнопку, якщо більше немає продуктів для завантаження
+                    $('button.load-more[data-subcategory="' + slug + '"]').hide();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Помилка завантаження продуктів: ", error);
+            }
+        });
+    }
+    
+    // Обробник кліку для кнопки "Завантажити ще"
+    $('.load-more').click(function() {
+        var slug = $(this).data('subcategory'); // Отримуємо slug підкатегорії
+        var nextPage = $(this).data('next-page');
+        loadProducts(slug, nextPage);
+    
+        // Оновлюємо номер сторінки для наступного завантаження
+        $(this).data('next-page', nextPage + 1);
+    });
+    </script>
+    
+    
 {% endblock content %}

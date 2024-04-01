@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
+from django.http import JsonResponse
 
 def index(request):
     product = Product.objects.all()
@@ -23,42 +24,23 @@ def index(request):
     }
     return render(request, 'product/index.html', context)
 
-def category(request, slug):
-    category = Category.objects.get(slug=slug) # Отримання категорії за його унікальним ідентифікатором (primary key).
-    sub_category = SubCategory.objects.filter(category=category)
-    product = Product.objects.all()
-    product_count = product.count()  # Кількість всіх об'єктів
+def is_ajax(request):
+    return request.headers.get('x-requested-with') == 'XMLHttpRequest'
 
-    if product.exists():
-        if product_count > 9:  
-            paginator = Paginator(product, 9)  
-            page_number = request.GET.get('page')
-            
-            try:
-                page_obj = paginator.page(page_number)
-            except PageNotAnInteger:
-                page_obj = paginator.page(1)
-            except EmptyPage:
-                page_obj = paginator.page(paginator.num_pages)
-            context = {
-                "product": product,
-                "category": category,
-                "sub_category": sub_category,
-                "page_obj": page_obj,
-            }
-        else:
-            context = {
-                "product": product,
-                "category": category,
-                "sub_category": sub_category,
-            }
-    else:
-        context = {
-            "product": None,
-            "category": category,
-            "sub_category": sub_category,
-        }
-        
+def category(request, slug):
+    category = Category.objects.get(slug=slug)
+    sub_categories = SubCategory.objects.filter(category=category)
+    sub_categories_with_products = {}
+
+    for sub_cat in sub_categories:
+        products = Product.objects.filter(sub_category=sub_cat).order_by('id')[:3]  # Беремо лише перші 3 продукти
+        sub_categories_with_products[sub_cat] = products
+
+    context = {
+        "category": category,
+        "sub_categories_with_products": sub_categories_with_products,
+    }
+    
     return render(request, 'product/category.html', context)
 
 def loginUser(request):
