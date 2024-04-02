@@ -247,3 +247,6 @@ def updatePages(request, slug):
         "form":form,
         } 
     return render(request, 'product/edit_page_form.html', context)
+
+def page404(request, exception):
+    return render(request, '404.html')
