@@ -126,3 +126,8 @@ html, body {
     margin: 20px 0;
     display: inline-block;}
 	.contant_box_404{ margin-top:-50px;}
+
+  .page-item-success .page-link {
+    background-color: #28a745; /* Зелений колір */
+    border-color: #28a745; /* Зелений колір рамки */
+  }

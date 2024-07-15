@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    "debug_toolbar",
     'django.contrib.sitemaps',
 ]
 
@@ -53,6 +54,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'ceramica.urls'
@@ -170,3 +173,8 @@ EMAIL_PORT = 587  # Порт SMTP сервера
 EMAIL_USE_TLS = True  # Використовувати TLS з'єднання
 EMAIL_HOST_USER = ''  # Ваша електронна адреса
 EMAIL_HOST_PASSWORD = ''  # Пароль для електронної адреси
+
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

@@ -1,2 +1,62 @@
+{% extends 'main.html' %} 
+{% block title %}{{sub_categories.name}} - сайт керамічних виробів{% endblock %}
+{% block keywords_seo %}розділ з ключовими словами {{sub_category.name}}{% endblock %}
+{% block description_seo %}Опис сторінки {{sub_category.name}}{% endblock %}
 
-{{prod_by_sub_category}}
+{% block content %}
+{% include 'breadcrumb.html' %}
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-10">
+            <h1>{{sub_categories.name}}</h1>
+        </div>
+        {% if request.user.is_authenticated %}
+        <div class="col-md-2 text-end pt-1">
+            <sapn><a class="text-light btn btn-success btn-sm" href="{% url 'update-subcategory' sub_categories.slug %}"><i class="bi bi-pencil-square"></i></a></span>
+        </div>
+        {% endif %}
+    </div>  
+    <p>
+    {{sub_categories.description}}
+    </p>
+</div>
+
+<section id="subcategory-{{ sub_cat.slug }}" class="row row-cols-1 row-cols-md-3 g-4 mb-5 subcategory">
+    
+    {% for prod in products %}
+    <article class="col">
+        <div class="card h-100">
+            <img
+            src="{{prod.image.url}}"
+            class="card-img-top"
+            alt="{{category.name}}-{{sub_categories.name}}"
+          />
+            <div class="card-body">
+                <h5 class="card-title">{{ prod.name }}</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Артікль: <b>{{ prod.article }}</b></li>
+                <li class="list-group-item">Виробник: <b>{{ prod.producer.name }}</b></li>
+                <li class="list-group-item ">Ціна: <b class="text-success">{{ prod.price }}</b></li>
+            </ul>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-md-8">Додано {{ prod.pub_date|date:"Y-m-d" }}</div>
+                    {% if request.user.is_authenticated %}
+                    <div class="col-2"><a class="text-light btn btn-success btn-sm" href="{% url 'update-product' prod.id %}"><i class="bi bi-pencil-square"></i></a></div>
+                    <div class="col-2"><a class="text-light btn btn-danger btn-sm" href="{% url 'delete-product' prod.id %}"><i class="bi bi-trash3-fill"></i></a></div>
+                    {% endif %}
+                </div>
+            </div>                    
+        </div>
+    </article>
+
+    {% endfor %}
+
+</section>
+<section>
+    {% include "paginations.html" %}
+</section>
+  
+{% endblock content %}

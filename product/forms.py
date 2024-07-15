@@ -34,13 +34,16 @@ class CategoryForm(ModelForm):
 class SubCategoryForm(ModelForm):
     class Meta:
         model = SubCategory
-        fields  = ['name', 'description', 'category']
+        fields  = ['name', 'description', 'description_seo', 'keywords_seo', 'category', 'image']
     def __init__(self, *args, **kwargs):
         super(SubCategoryForm, self).__init__(*args, **kwargs)
 
         self.fields['name'].widget.attrs.update({'class': 'form-control form-control-lg'})
         self.fields['description'].widget.attrs.update({'class': 'form-control'})
+        self.fields['description_seo'].widget.attrs.update({'class': 'form-control'})
+        self.fields['keywords_seo'].widget.attrs.update({'class': 'form-control'})
         self.fields['category'].widget.attrs.update({'class': 'form-control'})
+        self.fields['image'].widget.attrs.update({'class': 'form-control'})
 
 class PageForm(ModelForm):
     class Meta:

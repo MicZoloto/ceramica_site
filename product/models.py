@@ -51,9 +51,14 @@ class Category(models.Model):
 class SubCategory(models.Model):
     name = models.CharField('Назва підкатегоії', max_length=200, null=True, blank=True)
     description = models.TextField('Опис', null=True, blank=True)
+
+    description_seo = models.CharField(max_length=255, verbose_name='Опис для SEO', blank=True)
+    keywords_seo = models.CharField(max_length=255, verbose_name='Ключові слова для SEO', blank=True)
+
     pub_date = models.DateTimeField('Дата публікації', auto_now_add=True)
     slug = models.SlugField('Назва для ЧПУ', unique=True, null=True, blank=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True)
+    image = models.ImageField('Зображення для підрозділу ', null=True, blank=True, default='default.jpg')
 
     def __str__(self):
         return f"{self.name} / {self.pub_date}"

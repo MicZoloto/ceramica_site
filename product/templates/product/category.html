@@ -4,113 +4,52 @@
 {% block description_seo %}Опис сторінки {{category.name}}{% endblock %}
 
 {% block content %}
-<div>
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb border-bottom pb-2 m-1">
-            <li class="breadcrumb-item"><a class="link-underline link-underline-opacity-0 text-success" href="/">Головна</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{category.name}}</li>
-        </ol>
-    </nav>
-</div>
-{% for sub_category, products in sub_categories_with_products.items %}
+{% include 'breadcrumb.html' %}
 
-<section id="subcategory-{{ sub_cat.slug }}" class="row row-cols-1 row-cols-md-3 g-4 mb-5 subcategory">
-    <div class="col-md-12" id="{{category.slug}}">
+<section class="row row-cols-1 row-cols-md-3 mb-5 g-4">
+    <div class="col-md-12">
         <div class="row">
             <div class="col-md-10">
-                <h1>{{sub_category.name}}</h1>
+                <h1>{{category.name}}</h1>
             </div>
             {% if request.user.is_authenticated %}
             <div class="col-md-2 text-end pt-1">
-                <sapn><a class="text-light btn btn-success btn-sm" href="{% url 'update-subcategory' category.slug %}"><i class="bi bi-pencil-square"></i></a></span>
-                <span><a class="text-light btn btn-danger btn-sm" href="{% url 'delete-subcategory' category.slug %}"><i class="bi bi-trash3-fill"></i></a></span>
+                <sapn><a class="text-light btn btn-success btn-sm" href="{% url 'update-category' category.slug %}"><i class="bi bi-pencil-square"></i></a></span>
             </div>
             {% endif %}
-        </div>
-
-        <p>{{sub_category.description}}</p>
-        
+        </div>  
+        <p>
+        {{category.description}}
+        </p>
     </div>
-    {% for prod in products %}
-        {% if prod.sub_category.name == sub_category.name %}
-        <article class="col">
-            <div class="card h-100">
-                <img
-                src="{{prod.image.url}}"
-                class="card-img-top"
-                alt="{{category.name}}"
-              />
-                <div class="card-body">
-                    <h5 class="card-title">{{ prod.name }}</h5>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Артікль: <b>{{ prod.article }}</b></li>
-                    <li class="list-group-item">Виробник: <b>{{ prod.producer.name }}</b></li>
-                    <li class="list-group-item ">Ціна: <b class="text-success">{{ prod.price }}</b></li>
-                </ul>
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col-md-8">Додано {{ prod.pub_date|date:"Y-m-d" }}</div>
-                        {% if request.user.is_authenticated %}
-                        <div class="col-2"><a class="text-light btn btn-success btn-sm" href="{% url 'update-product' prod.id %}"><i class="bi bi-pencil-square"></i></a></div>
-                        <div class="col-2"><a class="text-light btn btn-danger btn-sm" href="{% url 'delete-product' prod.id %}"><i class="bi bi-trash3-fill"></i></a></div>
-                        {% endif %}
-                    </div>
-                </div>                    
-            </div>
-        </article>
-        {% endif %}
-    {% endfor %}
-    <button class="load-more" data-subcategory="{{ sub_cat.slug }}" data-next-page="2">Завантажити ще</button>
 
-    </section>
-{% endfor %}
-<script>
-    // Функція для завантаження продуктів у підкатегорії
-    function loadProducts(slug, page) {
-        $.ajax({
-            url: '{% url "category" category.slug %}', // Переконайтесь, що цей URL правильно налаштований
-            type: 'GET',
-            data: {
-                'slug': slug,  
-                'page': page
-            },
-            dataType: 'json',
-            success: function (response) {
-                if (response.products && response.products.length > 0) {
-                    response.products.forEach(function(product) {
-                        var productHtml = '<div class="product">' +
-                                          '<img src="' + product.image.url + '" alt="' + product.name + '">' +
-                                          '<div>' + product.name + '</div>' +
-                                          '<div>Артикул: ' + product.article + '</div>' +
-                                          '<div>Виробник: ' + product.producer.name + '</div>' +
-                                          '<div>Ціна: ' + product.price + '</div>' +
-                                          '</div>';
-    
-                        // Додаємо продукти в DOM для відповідної підкатегорії
-                        $('#subcategory-' + slug).append(productHtml);
-                    });
-                } else {
-                    // Приховуємо кнопку, якщо більше немає продуктів для завантаження
-                    $('button.load-more[data-subcategory="' + slug + '"]').hide();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Помилка завантаження продуктів: ", error);
-            }
-        });
-    }
-    
-    // Обробник кліку для кнопки "Завантажити ще"
-    $('.load-more').click(function() {
-        var slug = $(this).data('subcategory'); // Отримуємо slug підкатегорії
-        var nextPage = $(this).data('next-page');
-        loadProducts(slug, nextPage);
-    
-        // Оновлюємо номер сторінки для наступного завантаження
-        $(this).data('next-page', nextPage + 1);
-    });
-    </script>
-    
-    
+    {% for sub_category in sub_categories %}
+    <article class="col">
+        <div class="card h-100">
+        <a href="{% url 'category' sub_category.slug %}">
+            <img
+            src="{{sub_category.image.url}}"
+            class="card-img-top"
+            alt="{{sub_category.name}}"
+        />
+        </a>
+        <div class="card-body">
+            <h5 class="card-title"><a class="link-underline link-underline-opacity-0 text-success" href="{% url 'subcategory' sub_category.slug %}">{{sub_category.name}}</a></h5>
+            <p class="card-text">
+            {{sub_category.description}}
+            </p>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+            <div class="col-md-8">Додано {{ sub_category.pub_date|date:"Y-m-d" }}</div>
+            {% if request.user.is_authenticated %}
+            <div class="col-2"><a class="text-light btn btn-success btn-sm" href="{% url 'update-subcategory' sub_category.slug %}"><i class="bi bi-pencil-square"></i></a></div>
+            <div class="col-2"><a class="text-light btn btn-danger btn-sm" href="{% url 'delete-subcategory' sub_category.slug %}"><i class="bi bi-trash3-fill"></i></a></div>
+            {% endif %}
+            </div>
+        </div> 
+        </div>
+    </article>
+    {% endfor %}
+</section>    
 {% endblock content %}

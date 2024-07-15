@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from product.models import Category, SubCategory, Page
 
 def navigations(request):
-    category = Category.objects.all()
+    category = Category.objects.all().values('name', 'slug')
     sub_category = SubCategory.objects.all()
 
     context = {
@@ -12,7 +12,7 @@ def navigations(request):
     return (context)
 
 def pages(request):
-    top_nav = Page.objects.all()
+    top_nav = Page.objects.all().values('title', 'slug')
 
     context = {
         "top_nav": top_nav,

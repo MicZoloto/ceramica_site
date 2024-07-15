@@ -5,7 +5,7 @@
         <a href="/" class="d-flex align-items-ce nter pb-3 mb-3 link-dark text-decoration-none">
           <img class="img-fluid" src="{% static 'images/logo.jpg' %}" alt="logo">
         </a>
-          <ul class="list-unstyled ps-0">
+          <ul class="list-unstyled ps-0 d-none d-md-block">
             {% for nav in cat_nav %}
             <li class="mb-1">
               {% if category.name == nav.name%}
@@ -24,7 +24,7 @@
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                   {% for sub in sub_cat_nav %}
                   {% if sub.category.name == nav.name %}
-                  <li><a href="{% url 'category' nav.slug %}#{{sub.slug}}" class="link-dark rounded">{{sub.name}}</a></li>
+                  <li><a href="{% url 'subcategory' sub.slug %}" class="link-dark rounded">{{sub.name}}</a></li>
                   {% endif %}
                   {% endfor %}
                 </ul>

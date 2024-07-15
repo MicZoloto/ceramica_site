@@ -1,0 +1,19 @@
+<section>
+    <div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb border-bottom pb-2 m-1">
+                <li class="breadcrumb-item"><a class="link-underline link-underline-opacity-0 text-success" href="/">Головна</a></li>
+                {% if sub_categories.name %}
+                <li class="breadcrumb-item" aria-current="page">
+                    <a class="link-underline link-underline-opacity-0 text-success" href="{% url 'category' sub_categories.category.slug %}">{{sub_categories.category.name}}</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">{{sub_categories.name}}</li>
+                {% elif category.name %}
+                <li class="breadcrumb-item active" aria-current="page">{{category.name}}</li>
+                {% elif page.title %}
+                <li class="breadcrumb-item active" aria-current="page">{{page.title}}</li>
+                {% endif %}
+            </ol>
+        </nav>
+    </div>
+</section>
