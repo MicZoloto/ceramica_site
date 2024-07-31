@@ -18,14 +18,14 @@
               Каталог виробів
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-              {% for nav in cat_nav %}
-              <li><a class="dropdown-item" href="{% url 'category' nav.slug %}">{{nav.name}}</a></li>
+              {% for category in categoriesfornav %}
+              <li><a class="dropdown-item" href="{% url 'category' category.slug %}">{{category.name}}</a></li>
               {% endfor %}
             </ul>
           </li>
-          {% for nav in top_nav %}
-          <li class="nav-item">
-            <a class="nav-link fw-bolder link-underline-opacity-0 text-success" aria-current="page" href="{% url 'page' nav.slug %}">{{nav.title}}</a>
+          {% for page in pages %}
+          <li>
+            <a class="nav-link fw-bolder text-success" aria-expanded="false" href="{% url 'page' page.slug %}">{{page.title}}</a>
           </li>
           {% endfor %}
         </ul>

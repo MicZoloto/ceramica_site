@@ -1,0 +1,14 @@
+# robots.txt
+
+User-agent: *
+Disallow: /admin/
+Disallow: /accounts/
+Disallow: /static/
+Disallow: /media/
+Disallow: /private/
+
+# Allowing crawlers to index all other areas of the site
+Allow: /
+
+# Sitemap location
+Sitemap: http://127.0.0.1:8000/sitemap.xml

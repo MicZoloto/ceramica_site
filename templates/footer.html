@@ -1,14 +1,13 @@
 <footer class="mt-auto" data-bs-theme="dark">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-      {% for nav in top_nav %}
-      <li class="nav-item"><a href="{% url 'page' nav.slug %}" class="nav-link px-2 text-body-secondary">{{nav.title}}</a></li>
+      {% for page in pages %}
+      <li class="nav-item"><a href="{% url 'page' page.slug %}" class="nav-link px-2 text-body-secondary">{{page.title}}</a></li>
       {% endfor %}
     </ul>
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-      {% for nav in cat_nav %}
-      <li class="nav-item"><a href="{% url 'category' nav.slug %}" class="nav-link px-2 text-body-secondary">{{nav.name}}</a></li>
+      {% for category in categoriesfornav %}
+      <li class="nav-item"><a class="nav-link px-2 text-body-secondary" href="{% url 'category' category.slug %}">{{category.name}}</a></li>
       {% endfor %}
-
     </ul>
     <p class="text-center text-body-secondary">&copy; 2024</p>
   </footer>

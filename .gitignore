@@ -13,6 +13,10 @@ __pycache__/
 # Static files (generated or uploaded)
 static/images/
 
+# Виключити конкретні файли з ігнорування
+!static/images/logo.png
+!static/images/default.jpg
+
 # Media files (uploaded)
 media/
 

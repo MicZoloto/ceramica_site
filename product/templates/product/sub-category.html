@@ -1,5 +1,5 @@
 {% extends 'main.html' %} 
-{% block title %}{{sub_categories.name}} - сайт керамічних виробів{% endblock %}
+{% block title %}{{sub_category.name}} - сайт керамічних виробів{% endblock %}
 {% block keywords_seo %}розділ з ключовими словами {{sub_category.name}}{% endblock %}
 {% block description_seo %}Опис сторінки {{sub_category.name}}{% endblock %}
 
@@ -13,12 +13,12 @@
         </div>
         {% if request.user.is_authenticated %}
         <div class="col-md-2 text-end pt-1">
-            <sapn><a class="text-light btn btn-success btn-sm" href="{% url 'update-subcategory' sub_categories.slug %}"><i class="bi bi-pencil-square"></i></a></span>
+            <sapn><a class="text-light btn btn-success btn-sm" href="{% url 'update-subcategory' sub_category.slug %}"><i class="bi bi-pencil-square"></i></a></span>
         </div>
         {% endif %}
     </div>  
     <p>
-    {{sub_categories.description}}
+    {{sub_category.description}}
     </p>
 </div>
 

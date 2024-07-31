@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
 from .models import Product, Category, Producer, SubCategory, Page
 from .forms import ContactForm, ProductForm, CategoryForm, SubCategoryForm, PageForm
@@ -10,16 +10,20 @@ from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.mail import send_mail
 from django.http import JsonResponse
-from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
 def index(request):
-    category = Category.objects.all()
+    categories = cache.get('category_list')
+    if not categories:
+        categories = Category.objects.all()
+        cache.set('category_list', categories, 60*5)
+    
     context = {
-        "category": category,
+        "categories": categories,
     }
     return render(request, 'product/index.html', context)
 
-@cache_page(60*5)
+
 def category(request, slug):
     category = Category.objects.get(slug=slug)
     sub_categories = SubCategory.objects.filter(category=category)
@@ -151,11 +155,10 @@ def deleteCategory(request, slug):
     }
     return render(request, 'product/delete-category.html', context)
 
-@cache_page(60*5)
 def subCategory(request, slug):
-    sub_categories = SubCategory.objects.get(slug=slug)
-    products_list = Product.objects.filter(sub_category=sub_categories)
-    
+    sub_category = get_object_or_404(SubCategory, slug=slug)
+    products_list = Product.objects.filter(sub_category=sub_category).select_related('sub_category', 'producer')
+
     # Pagination logic
     paginator = Paginator(products_list, 9)  # 9 products per page
     page = request.GET.get('page')
@@ -168,7 +171,7 @@ def subCategory(request, slug):
         products = paginator.page(paginator.num_pages)
 
     context = {
-        "sub_categories": sub_categories,
+        "sub_category": sub_category,
         "products": products,
     }
     
@@ -219,7 +222,6 @@ def deleteSubCategory(request, slug):
 def loginInstructions(request):
     return render(request, 'product/login-instructions.html')
 
-@cache_page(60*5)
 def pages(request, slug):
     pages = Page.objects.get(slug=slug)
     if request.method == 'POST':
@@ -260,6 +262,5 @@ def updatePages(request, slug):
         } 
     return render(request, 'product/edit_page_form.html', context)
 
-@cache_page(60*10)
 def page404(request, exception):
     return render(request, '404.html')
