@@ -12,10 +12,13 @@ __pycache__/
 
 # Static files (generated or uploaded)
 static/images/
+ceramica/staticfiles/
 
 # Виключити конкретні файли з ігнорування
 !static/images/logo.png
 !static/images/default.jpg
+!ceramica/staticfiles/logo.png
+!ceramica/staticfiles/default.jpg
 
 # Media files (uploaded)
 media/

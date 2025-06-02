@@ -1,0 +1,17 @@
+#version: "3.9"
+
+services:
+  web:
+    build:
+      context: ../
+      dockerfile: docker/dev/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../:/app 
+      #- ./db.sqlite3:/app/db.sqlite3 
+      - type: bind
+        source: /run/desktop/mnt/host/d/MY_PROG/CERAMICA/ceramica_site/db.sqlite3
+        target: /app/db.sqlite3
+    env_file:
+      - ./dev/.env

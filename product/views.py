@@ -157,7 +157,7 @@ def deleteCategory(request, slug):
 
 def subCategory(request, slug):
     sub_category = get_object_or_404(SubCategory, slug=slug)
-    products_list = Product.objects.filter(sub_category=sub_category).select_related('sub_category', 'producer')
+    products_list = Product.objects.filter(sub_category=sub_category).select_related('sub_category', 'producer').order_by('id')
 
     # Pagination logic
     paginator = Paginator(products_list, 9)  # 9 products per page

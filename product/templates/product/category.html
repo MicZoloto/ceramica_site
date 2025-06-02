@@ -26,7 +26,7 @@
     {% for sub_category in sub_categories %}
     <article class="col">
         <div class="card h-100">
-        <a href="{% url 'category' sub_category.slug %}">
+        <a href="{% url 'subcategory' sub_category.slug %}">
             <img
             src="{{sub_category.image.url}}"
             class="card-img-top"
