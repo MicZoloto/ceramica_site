@@ -3,7 +3,12 @@ from .base import *
 DEBUG = False
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
 
-DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"
+DATABASES = {
+    "default": {
+        "ENGINE": os.getenv("DB_ENGINE"),
+        "NAME": BASE_DIR / os.getenv("DB_NAME"),
+    }
+}
 
 CACHES = {
     'default': {

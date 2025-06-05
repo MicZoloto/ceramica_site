@@ -8,7 +8,13 @@ __pycache__/
 
 # Django-specific files
 *.log
-#db.sqlite3
+db.sqlite3
+
+# Environment variables
+*.env
+.env
+docker/prod/.env
+docker/dev/.env
 
 # Static files (generated or uploaded)
 static/images/
@@ -26,3 +32,7 @@ media/
 # Virtual environment
 venv/
 env/
+
+# System files
+Thumbs.db
+.DS_Store

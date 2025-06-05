@@ -39,6 +39,21 @@
     </div>
 
     {% include 'footer.html' %}
-</body>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert');
+
+        alerts.forEach(alert => {
+          // Перевіряємо, чи сповіщення не має класу 'persistent-alert'
+          if (!alert.classList.contains('persistent-alert')) {
+            setTimeout(() => {
+              const bsAlert = new bootstrap.Alert(alert);
+              bsAlert.close();
+            }, 5000); // 5000 мілісекунд = 5 секунд
+          }
+        });
+      });
+    </script>
+  </body>
 
 </html>
