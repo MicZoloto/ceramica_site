@@ -5,6 +5,9 @@ services:
     build:
       context: .
       dockerfile: docker/prod/Dockerfile
+      container_name: ceramica_site_deploy
+      command: gunicorn ceramica.wsgi:application --bind 0.0.0.0:8000
+
     env_file:
       - docker/prod/.env
     volumes:

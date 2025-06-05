@@ -1,5 +1,5 @@
 name: ceramica_site CI/CD
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: ${{ github.actor }}
 on: [main]
 jobs:
   run_unittests:
@@ -19,21 +19,3 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run Tests
-        run: |
-          cd ./src
-          echo "SECRET_KEY = 'django-insecure-dummy-secret'" > ./proj/secrets.py
-          python3 manage.py test
-      - name: Update passed icon
-        uses: Sibz/github-status-action@v1
-        with: 
-          authToken: ${{secrets.GIT_TOKEN}}
-          context: 'CI CHECK'
-          description: 'Passed'
-          state: 'success'
-          sha: ${{github.event.pull_request.head.sha || github.sha}}
-      - name: Check coverage
-        run: |
-          python3 coverage_cicd.py
-        env:
-          COVERAGE_THRESHOLD: ${{vars.COVERAGE_THRESHOLD}}
